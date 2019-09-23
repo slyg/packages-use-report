@@ -2,8 +2,10 @@
 
 ## Pre-requisites
 
-- python 2.7.10+
+- python 3.7.4+
 - gnumake
+- create virtualenv `virtualenv env` / activate virtualenv: `source env/bin/activate`
+- install deps: `pip install -r requirements.txt`
 
 ## Generate report
 

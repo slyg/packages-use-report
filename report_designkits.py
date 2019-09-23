@@ -2,6 +2,7 @@
 from functools import reduce
 
 import numpy as np
+
 from utils import get_repos_for_code_search, make_row
 
 API_SEARCH_BASE = "https://api.github.com/search/code"
@@ -14,20 +15,23 @@ get_repos = get_repos_for_code_search(API_SEARCH_BASE)
 
 def main():
 
-    gds_projects = np.array(get_repos(QUERY_GDS))
-    gov_projects = np.array(get_repos(QUERY_GOV))
-    intersection = np.intersect1d(gds_projects, gov_projects)
-    all_projects = np.unique(np.concatenate((gds_projects, gov_projects)))
+    gds_projects = np.array(list(get_repos(QUERY_GDS)))
+    gov_projects = np.array(list(get_repos(QUERY_GOV)))
+    names_in_gov_projects = {gds_projects['name']
+                             for gds_projects in gov_projects}
+    intersection = [d for d in gds_projects if d['name']
+                    in names_in_gov_projects]
+    concatenated = np.concatenate((gds_projects, gov_projects))
+    all_projects = [dict(t)
+                    for t in {tuple(d.items()) for d in concatenated}]
+    all_projects_sorted = sorted(all_projects, key=lambda item: item['name'])
 
-    def make_row_from_project_name(item):
-        return make_row([
-            item['name'],
-            'X' if (item in gds_projects) else '',
-            'X' if (item in gov_projects) else '',
-            'X' if (item in intersection) else ''
-        ])
-
-    rows = map(make_row_from_project_name, all_projects)
+    rows = list(map(lambda item: make_row([
+        item['name'],
+        'X' if (item in gds_projects) else '',
+        'X' if (item in gov_projects) else '',
+        'X' if (item in intersection) else ''
+    ]), all_projects_sorted))
 
     np.savetxt(OUTPUT_FILE, rows,
                delimiter=',',
