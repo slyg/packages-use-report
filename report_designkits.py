@@ -1,9 +1,8 @@
-
 from functools import reduce
 
 import numpy as np
 
-from utils import get_repos_for_code_search, make_row
+from utils import get_repos_for_code_search, save_csv
 
 API_SEARCH_BASE = "https://api.github.com/search/code"
 OUTPUT_FILE = "gds-usage-report.csv"
@@ -26,20 +25,15 @@ def main():
                     for t in {tuple(d.items()) for d in concatenated}]
     all_projects_sorted = sorted(all_projects, key=lambda item: item['name'])
 
-    rows = list(map(lambda item: make_row([
-        item['name'],
-        'X' if (item in gds_projects) else '',
-        'X' if (item in gov_projects) else '',
-        'X' if (item in intersection) else ''
-    ]), all_projects_sorted))
+    fieldnames = ['Reference','Uses GDS','Uses deprecated gov-elements','Uses both']
+    rows = list(map(lambda item: {
+        fieldnames[0]: item['name'],
+        fieldnames[1]: 'X' if (item in gds_projects) else '',
+        fieldnames[2]: 'X' if (item in gov_projects) else '',
+        fieldnames[3]: 'X' if (item in intersection) else ''
+    }, all_projects_sorted))
 
-    np.savetxt(OUTPUT_FILE, rows,
-               delimiter=',',
-               fmt='%s',
-               header='Project reference,Uses GDS,Uses deprecated gov-elements,Uses both',
-               comments='')
-
-    print("Report saved: {}".format(OUTPUT_FILE))
+    save_csv(OUTPUT_FILE, fieldnames, rows)
 
 
 if __name__ == '__main__':
