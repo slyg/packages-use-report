@@ -1,5 +1,3 @@
-from functools import reduce
-
 import numpy as np
 
 from utils import get_repos_for_code_search, save_csv
