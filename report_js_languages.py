@@ -3,7 +3,7 @@ import numpy as np
 from utils import get_repos_for_repo_search, save_csv
 
 API_SEARCH_BASE = "https://api.github.com/search/repositories"
-OUTPUT_FILE = "js-report.csv"
+OUTPUT_FILE = "js-languages-report.csv"
 QUERY_JS = "org:hmcts+language:javascript"
 QUERY_TS = "org:hmcts+language:typescript"
 
