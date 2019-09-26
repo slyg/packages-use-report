@@ -40,9 +40,6 @@ def main():
 
     fieldnames = ['Reference', 'Uses Snyk', 'Uses deprecated nsp', 'npm audit', 'dependabot']
 
-    def likely_node_app(item):
-        return (item in concatenated_node_based_docker_projects) or (item in js_projects_with_express)
-
     rows = list(map(lambda item: {
         fieldnames[0]: item['name'],
         fieldnames[1]: 'X' if (item in js_projects_with_snyk) else '',
