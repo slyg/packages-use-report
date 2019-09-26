@@ -5,6 +5,7 @@ from requests import get
 
 API_CODE_SEARCH_BASE = "https://api.github.com/search/code"
 API_REPO_SEARCH_BASE = "https://api.github.com/search/repositories"
+API_ISSUES_SEARCH_BASE = "https://api.github.com/search/issues"
 
 file = open('auth', mode='r')
 token = file.read()
@@ -25,6 +26,13 @@ def get_repos_for_code_search(query):
     url = "{}?q={}".format(API_CODE_SEARCH_BASE, query)
     data = get(url, headers={"Authorization": "token {}".format(token)}).json()
     def lens(item): return {'name': item['repository']['name']}
+    return map(lens, data['items'])
+
+def get_repos_for_issues_search(query):
+    sleep(1)
+    url = "{}?q={}".format(API_ISSUES_SEARCH_BASE, query)
+    data = get(url, headers={"Authorization": "token {}".format(token)}).json()
+    def lens(item): return {'name': item['repository_url'].rsplit('/', 1)[1]}
     return map(lens, data['items'])
 
 
