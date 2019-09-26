@@ -31,5 +31,9 @@ js-apps-snyk-report: $(.PYTHON_ENV_DIR) $(.REPORTS_DIR)
 	@source $(.PYTHON_ENV_DIR)/bin/activate; \
 		$(.BIN)/report_js_apps_snyk.py;
 
+.PHONY: clean
+clean:
+	@rm $(.REPORTS_DIR)/*.json
+
 .PHONY: all
 all: report-designkits report-js-languages report-node-apps js-apps-snyk-report
