@@ -38,7 +38,7 @@ def main():
 
     all_projects_sorted = sorted(all_projects, key=lambda item: item['name'])
 
-    fieldnames = ['Reference', 'Uses Snyk', 'Uses deprecated nsp', 'npm audit', 'dependabot']
+    fieldnames = ['Reference', 'Uses Snyk', 'Uses deprecated nsp', 'Uses npm audit', 'Uses dependabot']
 
     rows = list(map(lambda item: {
         fieldnames[0]: item['name'],

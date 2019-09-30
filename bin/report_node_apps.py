@@ -41,7 +41,7 @@ def main():
     all_projects_sorted = sorted(all_projects, key=lambda item: item['name'])
 
     fieldnames = ['Reference', 'Uses Express',
-                  'Node-based docker image', 'Likely nodejs app', 'Use Helmet']
+                  'Node-based docker image', 'Likely nodejs app', 'Uses Helmet']
 
     def likely_node_app(item):
         return (item in concatenated_node_based_docker_projects) or (item in js_projects_with_express)
