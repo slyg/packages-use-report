@@ -1,8 +1,9 @@
-SHELL=/bin/bash
 .DEFAULT_GOAL := all
 .REPORTS_DIR := reports
-.BIN := ./bin
 .PYTHON_ENV_DIR := env
+
+SHELL := /bin/bash
+PATH  := $(.PYTHON_ENV_DIR)/bin:bin:$(PATH)
 
 $(.PYTHON_ENV_DIR):
 	@virtualenv --python=$(which python3) $@
@@ -13,23 +14,23 @@ $(.REPORTS_DIR):
 
 .PHONY: report-designkits
 report-designkits: $(.PYTHON_ENV_DIR) $(.REPORTS_DIR)
-	@source $(.PYTHON_ENV_DIR)/bin/activate; \
-		$(.BIN)/report_designkits.py;
+	@source activate; \
+		report_designkits.py;
 
 .PHONY: report-js-languages
 report-js-languages: $(.PYTHON_ENV_DIR) $(.REPORTS_DIR)
-	@source $(.PYTHON_ENV_DIR)/bin/activate; \
-		$(.BIN)/report_js_languages.py;
+	@source activate; \
+		report_js_languages.py;
 
 .PHONY: report-node-apps
 report-node-apps: $(.PYTHON_ENV_DIR) $(.REPORTS_DIR)
-	@source $(.PYTHON_ENV_DIR)/bin/activate; \
-		$(.BIN)/report_node_apps.py;
+	@source activate; \
+		report_node_apps.py;
 
 .PHONY: js-apps-snyk-report
 js-apps-snyk-report: $(.PYTHON_ENV_DIR) $(.REPORTS_DIR)
-	@source $(.PYTHON_ENV_DIR)/bin/activate; \
-		$(.BIN)/report_js_apps_snyk.py;
+	@source activate; \
+		report_js_apps_snyk.py;
 
 .PHONY: clean
 clean:
